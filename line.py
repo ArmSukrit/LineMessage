@@ -3,7 +3,7 @@ from random import choice
 
 from utils import time_log
 from stickers import kinda_sad_stickers, kinda_happy_stickers
-from exceptions import ConflictRandomSticker, StickerError
+from exceptions import *
 
 
 token_file = "line_token.txt"
@@ -20,11 +20,7 @@ def send_line_message(message, token=None, imageThumbnail=None, imageFullsize=No
         :return True if sent successfully else False """
 
     if not message:
-        time_log("message: must not be empty")
-        return False
-
-    if (randHappyStickers or randSadStickers) and (stickerId or stickerPackageId):
-        raise StickerError("random sticker mode is on but stickerId or stickerPackageId is/are True")
+        raise MessageNotGivenError("Message is required.")
 
     if not token:
         try:
@@ -37,13 +33,16 @@ def send_line_message(message, token=None, imageThumbnail=None, imageFullsize=No
             except FileNotFoundError:
                 token = get_and_save_token()
 
+    if (randHappyStickers or randSadStickers) and (stickerId or stickerPackageId):
+        raise StickerError("random sticker mode is on but stickerId or stickerPackageId is/are True")
+
     if randHappyStickers and randSadStickers:
         raise ConflictRandomSticker("Both randHappyStickers and randSadStickers are True. Only one can be chosen")
     if randSadStickers or randSadStickers:
         if randSadStickers:
             sticker = choice(kinda_sad_stickers)
         else:
-            sticker = choice(kinda_sad_stickers)
+            sticker = choice(kinda_happy_stickers)
         stickerPackageId = sticker['stickerPackageId']
         stickerId = choice(sticker['stickerIds'])
 
