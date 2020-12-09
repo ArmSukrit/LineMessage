@@ -1,6 +1,10 @@
 import requests
 
 from utils import time_log
+from stickers import kinda_sad_stickers, kinda_happy_stickers
+
+
+token_file = "line_token.txt"
 
 
 def send_line_message(message, token=None, imageThumbnail=None, imageFullsize=None, notificationDisabled=False,
@@ -17,17 +21,15 @@ def send_line_message(message, token=None, imageThumbnail=None, imageFullsize=No
         return False
 
     if not token:
-        token_file = "Line\\line_token.txt"
         try:
             with open(token_file) as f:
                 token = f.read().strip()
         except FileNotFoundError:
             try:
-                with open(token_file.replace("Line\\", '')) as f:
+                with open("Line\\" + token_file) as f:
                     token = f.read().strip()
             except FileNotFoundError:
-                print("You need to provide token of Line Notify.")
-                return False
+                token = get_and_save_token()
 
     # only message is required, others are optional
     data = {
@@ -49,3 +51,15 @@ def send_line_message(message, token=None, imageThumbnail=None, imageFullsize=No
     else:
         time_log(f"Cannot send Line message, '{eval(r.text)['message']}'")
         return False
+
+
+def get_and_save_token():
+    token = input("Line Notify token: ").strip()
+    with open(token_file, 'w') as f:
+        f.write(token)
+    return token
+
+
+if __name__ == '__main__':
+    """ run this to input your token """
+    get_and_save_token()
