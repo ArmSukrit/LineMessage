@@ -47,7 +47,6 @@ def send_line_message(message, token=None, imageThumbnail=None, imageFullsize=No
         stickerPackageId = sticker['stickerPackageId']
         stickerId = choice(sticker['stickerIds'])
 
-
     # only message is required, others are optional
     data = {
         'message': message,
