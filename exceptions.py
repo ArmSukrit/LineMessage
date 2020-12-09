@@ -7,6 +7,11 @@ class StickerError(Error):
     pass
 
 
+class ImageError(Error):
+    """ base error about images """
+    pass
+
+
 class MessageError(Error):
     """ base error about messages """
     pass
