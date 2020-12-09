@@ -1,18 +1,16 @@
 import requests
 from random import choice
 
-from utils import time_log
+from utils import time_log, get_and_save_token
 from stickers import kinda_sad_stickers, kinda_happy_stickers
 from exceptions import *
-
-
-token_file = "line_token.txt"
+from global_vars import token_file
 
 
 def send_line_message(message, token=None, imageThumbnail=None, imageFullsize=None, notificationDisabled=False,
                       stickerId=None, stickerPackageId=None, imageFile=None,
                       randSadStickers=False, randHappyStickers=False):
-    """ send Line message with specific token.
+    """ send Line message with/without sticker, image
         For token, see more at https://notify-bot.line.me/my/
         For what can be sent see https://notify-bot.line.me/doc/en/
             topic: "POST https://notify-api.line.me/api/notify" -> "Request parameters"
@@ -66,13 +64,6 @@ def send_line_message(message, token=None, imageThumbnail=None, imageFullsize=No
     else:
         time_log(f"Cannot send Line message, '{eval(r.text)['message']}'")
         return False
-
-
-def get_and_save_token():
-    token = input("Line Notify token: ").strip()
-    with open(token_file, 'w') as f:
-        f.write(token)
-    return token
 
 
 if __name__ == '__main__':

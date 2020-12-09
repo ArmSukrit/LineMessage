@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from global_vars import token_file
+
 
 def time_log(message='', end='\n'):
     """ usage:
@@ -10,3 +12,10 @@ def time_log(message='', end='\n'):
         print(f"{datetime.now().strftime('%H:%M:%S.%f')}: {message}", end=end)
     else:
         return datetime.now().strftime('%H:%M:%S.%f')
+
+
+def get_and_save_token():
+    token = input("Line Notify token: ").strip()
+    with open(token_file, 'w') as f:
+        f.write(token)
+    return token
