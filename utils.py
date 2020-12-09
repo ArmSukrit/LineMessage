@@ -1,4 +1,5 @@
 from datetime import datetime
+from random import choice
 
 from global_vars import token_file
 
@@ -19,3 +20,8 @@ def get_and_save_token():
     with open(token_file, 'w') as f:
         f.write(token)
     return token
+
+
+def random_sticker(stickers: list):
+    sticker = choice(stickers)
+    return sticker['stickerPackageId'], choice(sticker['stickerIds'])
