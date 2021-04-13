@@ -17,6 +17,7 @@ def time_log(message='', end='\n'):
 
 def get_and_save_token():
     token = input("Line Notify token: ").strip()
+    token_file = "line_token.txt"
     with open(token_file, 'w') as f:
         f.write(token)
     return token
